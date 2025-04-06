@@ -23,6 +23,12 @@ if uploaded_file is not None:
         '広告費用対効果（ROAS）合計': 'ROAS'
     }, inplace=True)
 
+    # 数値に変換（エラーは無視してNaNに）
+    numeric_cols = ['Impressions', 'Clicks', 'Cost', 'Sales', 'ACOS', 'ROAS']
+    for col in numeric_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+
     # サイドバーでメニュー選択
     menu = st.sidebar.radio("表示する分析を選択", (
         "キーワード別の成果一覧",
